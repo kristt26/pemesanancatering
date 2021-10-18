@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="en" ng-app="apps">
+<html lang="en" ng-app="apps" ng-controller="indexController">
 
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>AdminLTE 3 | Advanced form elements</title>
+    <title>{{titleHeader}}</title>
 
     <link rel="stylesheet"
         href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
@@ -96,6 +96,8 @@
     <script src="../assets/backend/libs/loading/dist/loadingoverlay.min.js"></script>
     <script src="../assets/backend/libs/calendar/main.min.js"></script>
     <script src="../assets/backend/libs/calendar/locales-all.min.js"></script>
+    <script src="../assets/backend/libs/angularjs-currency-input-mask/dist/angularjs-currency-input-mask.min.js">
+    </script>
     <script>
     $(function() {
         //Initialize Select2 Elements

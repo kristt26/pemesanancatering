@@ -4,16 +4,17 @@ namespace App\Controllers\Admin;
 
 // use App\Controllers\BaseController;
 // use CodeIgniter\API\ResponseTrait;
+use App\Libraries\Decode;
 use CodeIgniter\RESTful\ResourceController;
 
 class Menu extends ResourceController
 {
     protected $modelName = 'App\Models\MenuModel';
-    protected $format    = 'json';
+    protected $format = 'json';
 
     public function index()
     {
-        $data['title'] = ["title"=>"Menu Makanan", "sub"=>""];
+        $data['title'] = ["title" => "Menu Makanan", "sub" => ""];
         $data['content'] = view("admin/menu");
         $data['sidebar'] = view("layout/backend/sidebar", $data['title']);
         return view('layout/backend/welcome', $data);
@@ -21,12 +22,23 @@ class Menu extends ResourceController
 
     public function read($id = null)
     {
+        if (is_null($id)) {
+            return $this->respond($this->model->findAll());
+        }
         return $this->respond($id);
     }
 
     public function post()
     {
+        $decode = new Decode();
         $data = $this->request->getJSON();
+        if (isset($data->foto)) {
+            try {
+                $data->foto = $decode->decodebase64($data->foto->base64, 'makanan');
+            } catch (\Throwable$th) {
+                return $this->fail($th);
+            }
+        }
         $this->model->insert($data);
         $data->id = $this->model->getInsertID();
         return $this->respondCreated($data, "disimpan");
@@ -35,13 +47,20 @@ class Menu extends ResourceController
     public function put($id = null)
     {
         $data = $this->request->getJSON();
+        if (isset($data->foto)) {
+            try {
+                $data->foto = $decode->decodebase64($data->foto->base64, 'makanan');
+            } catch (\Throwable $th) {
+                return $this->fail($th);
+            }
+        }
         $this->model->update($id, $data);
         return $this->respondUpdated($data, "diubah");
     }
 
     public function delete($id = null)
     {
-        
+
         return $this->respondDeleted($this->model->delete($id), "delete");
     }
 }

@@ -2,20 +2,25 @@
 
 namespace App\Controllers\Admin;
 
-// use App\Controllers\BaseController;
-// use CodeIgniter\API\ResponseTrait;
-use App\Libraries\Decode;
+use App\Controllers\Admin\DetailPaket;
 use CodeIgniter\RESTful\ResourceController;
 
-class Menu extends ResourceController
+class Paket extends ResourceController
 {
-    protected $modelName = 'App\Models\MenuModel';
+    protected $modelName = 'App\Models\PakatModel';
     protected $format = 'json';
+    protected $detailPaket;
+
+    public function __construct()
+    {
+        $this->detailPaket = new DetailPaket();
+
+    }
 
     public function index()
     {
-        $data['title'] = ["title" => "Menu Makanan", "sub" => ""];
-        $data['content'] = view("admin/menu");
+        $data['title'] = ["title" => "Paket Makanan", "sub" => ""];
+        $data['content'] = view("admin/paket");
         $data['sidebar'] = view("layout/backend/sidebar", $data['title']);
         return view('layout/backend/welcome', $data);
     }
@@ -28,13 +33,12 @@ class Menu extends ResourceController
             }
             return $this->respond($id);
         } catch (\Throwable $th) {
-            if($th->getCode()==8){
+            if ($th->getCode() == 8) {
                 return $this->fail("Periksa database anda");
-            }else{
+            } else {
                 return $this->fail($th->getMessage());
             }
         }
-
     }
 
     public function post()

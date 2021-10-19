@@ -2,38 +2,31 @@
 
 namespace App\Controllers\Admin;
 
-// use App\Controllers\BaseController;
-// use CodeIgniter\API\ResponseTrait;
-use App\Libraries\Decode;
-use CodeIgniter\RESTful\ResourceController;
+use App\Controllers\BaseController;
 
-class Menu extends ResourceController
+class DetailPaket extends BaseController
 {
-    protected $modelName = 'App\Models\MenuModel';
-    protected $format = 'json';
-
     public function index()
     {
-        $data['title'] = ["title" => "Menu Makanan", "sub" => ""];
-        $data['content'] = view("admin/menu");
-        $data['sidebar'] = view("layout/backend/sidebar", $data['title']);
-        return view('layout/backend/welcome', $data);
+        //
     }
 
     public function read($id = null)
     {
-        try {
-            if (is_null($id)) {
-                return $this->respond($this->model->findAll());
-            }
-            return $this->respond($id);
-        } catch (\Throwable $th) {
-            if($th->getCode()==8){
-                return $this->fail("Periksa database anda");
-            }else{
-                return $this->fail($th->getMessage());
-            }
-        }
+        // $detail = new DetailPaket();
+        // try {
+        //     if (is_null($id)) {
+        //         return $this->respond($this->model->findAll());
+        //     }
+        //     return $this->respond($id);
+        // } catch (\Throwable$th) {
+        //     if ($th->getCode() == 8) {
+        //         return $this->fail("Periksa database anda");
+        //     } else {
+        //         return $this->fail($th->getMessage());
+        //     }
+        // }
+        return "Data";
 
     }
 
@@ -59,7 +52,7 @@ class Menu extends ResourceController
         if (isset($data->foto->base64)) {
             try {
                 $data->foto = $decode->decodebase64($data->foto->base64, 'makanan');
-            } catch (\Throwable $th) {
+            } catch (\Throwable$th) {
                 return $this->fail($th->getMessage());
             }
         }

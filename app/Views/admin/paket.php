@@ -1,4 +1,4 @@
-<div class="col-md-12" ng-controller="menuController">
+<div class="col-md-12" ng-controller="paketController">
     <div class="card card-danger">
         <div class="card-header">
             <h3 class="card-title"><i class="fas fa-list"></i> Daftar Menu</h3>
@@ -106,7 +106,7 @@
 
     <!-- Modal -->
     <div class="modal fade" id="modelId" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
-        <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <img ng-src="{{files}}" class="img-responsive " />
             </div>

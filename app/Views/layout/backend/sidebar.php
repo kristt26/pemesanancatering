@@ -32,9 +32,17 @@
                 </li>
                 <li class="nav-item">
                     <a href="<?=base_url('admin/menu')?>" class="nav-link {{title=='Menu Makanan' ? 'active': ''}}">
-                        <i class="nav-icon fas fa-list"></i>
+                        <i class="nav-icon fas fa-utensils"></i>
                         <p>
                             Menu Makanan
+                        </p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="<?=base_url('admin/paket')?>" class="nav-link {{title=='Paket Makanan' ? 'active': ''}}">
+                        <i class="nav-icon fas fa-box-open"></i>
+                        <p>
+                            Paket Makanan
                         </p>
                     </a>
                 </li>

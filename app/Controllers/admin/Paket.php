@@ -2,7 +2,6 @@
 
 namespace App\Controllers\Admin;
 
-use App\Controllers\Admin\DetailPaket;
 use CodeIgniter\RESTful\ResourceController;
 
 class Paket extends ResourceController
@@ -13,8 +12,7 @@ class Paket extends ResourceController
 
     public function __construct()
     {
-        $this->detailPaket = new DetailPaket();
-
+        $this->detailPaket = new \App\Models\DetailModel();
     }
 
     public function index()
@@ -32,7 +30,7 @@ class Paket extends ResourceController
                 return $this->respond($this->model->findAll());
             }
             return $this->respond($id);
-        } catch (\Throwable $th) {
+        } catch (\Throwable$th) {
             if ($th->getCode() == 8) {
                 return $this->fail("Periksa database anda");
             } else {
@@ -63,7 +61,7 @@ class Paket extends ResourceController
         if (isset($data->foto->base64)) {
             try {
                 $data->foto = $decode->decodebase64($data->foto->base64, 'makanan');
-            } catch (\Throwable $th) {
+            } catch (\Throwable$th) {
                 return $this->fail($th->getMessage());
             }
         }

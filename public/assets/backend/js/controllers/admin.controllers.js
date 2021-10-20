@@ -3,6 +3,7 @@ angular.module('adminctrl', [])
     .controller('homeController', homeController)
     .controller('menuController', menuController)
     .controller('paketController', paketController)
+    .controller('pegawaiController', pegawaiController)
     ;
 
 
@@ -123,18 +124,22 @@ function menuController($scope, $http, helperServices, menuServices, message, $s
             menuServices.put($scope.model).then(res => {
                 message.info("Berhasil")
                 $("#tambah").modal("hide");
+                $scope.titleModal = "Tambah Data";
+                $scope.model = {};
             })
         } else {
             menuServices.post($scope.model).then(res => {
                 message.info("Berhasil")
                 $("#tambah").modal("hide");
+                $scope.titleModal = "Tambah Data";
+                $scope.model = {};
             })
         }
     }
 
     $scope.edit = (item) => {
         $scope.titleModal = "Ubah Data";
-        $scope.model = item;
+        $scope.model = angular.copy(item);
         $("#tambah").modal("show");
     }
 
@@ -158,13 +163,22 @@ function menuController($scope, $http, helperServices, menuServices, message, $s
     }
 }
 
-function paketController($scope, $http, helperServices, paketServices, message, $sce) {
+
+function paketController($scope, $http, helperServices, paketServices, message, $sce, menuServices) {
     $scope.$emit("SendUp", "Paket Makanan");
     $scope.datas = [];
     $scope.titleModal = "Tambah Data";
     $scope.model = {};
+    $scope.model.detail = [];
+    $scope.menus = [];
     paketServices.get().then(res => {
         $scope.datas = res;
+        menuServices.get().then(x => {
+            $scope.menus = x;
+            $scope.menus.forEach(element => {
+                element.foto = $sce.trustAsResourceUrl(helperServices.url + "assets/backend/img/makanan/" + element.foto);
+            });
+        })
     })
 
     $scope.save = () => {
@@ -182,8 +196,87 @@ function paketController($scope, $http, helperServices, paketServices, message, 
     }
 
     $scope.edit = (item) => {
+        $scope.model = angular.copy(item);
+        $scope.model.detail = [];
+        item.detail.forEach(element => {
+            var detail = $scope.menus.find(x => x.id == element.menu_id)
+            if (detail) {
+                detail.value = true;
+                $scope.model.detail.push(angular.copy(detail));
+            }
+        });
+    }
+
+
+    $scope.checkItem = (item) => {
+        var paket = $scope.datas.find(x => x.id == $scope.model.id);
+        if (item.value) {
+            if (paket) {
+                detail={paket_id: paket.id, menu_id: item.id};
+                paketServices.postDetail(detail).then(x => { })
+            }
+            $scope.model.detail.push(item)
+        } else {
+            if (paket) {
+                var detail = paket.detail.find(x => x.menu_id == item.id);
+                paketServices.deleteDetail(detail).then(x => { })
+            }
+            var set = $scope.model.detail.find(x => x.id == item.id);
+            if (set) {
+                var index = $scope.model.detail.indexOf(set);
+                $scope.model.detail.splice(index, 1);
+            }
+        }
+        console.log($scope.model);
+    }
+
+    $scope.getTotal = () => {
+        var total = 0;
+        $scope.model.detail.forEach(element => {
+            total += parseFloat(element.harga);
+        });
+        return total;
+    }
+
+    $scope.deleted = (param) => {
+        message.dialog("ingin menghapus?", "Yakin", "Tidak").then(x => {
+            paketServices.deleted(param).then(res => {
+                message.info("Berhasil");
+            })
+        })
+    }
+}
+
+function pegawaiController($scope, $http, helperServices, pegawaiServices, message, $sce) {
+    $scope.$emit("SendUp", "Pegawai");
+    $scope.datas = [];
+    $scope.titleModal = "Tambah Data";
+    $scope.model = {};
+    pegawaiServices.get().then(res => {
+        $scope.datas = res;
+    })
+
+    $scope.save = () => {
+        if ($scope.model.id) {
+            pegawaiServices.put($scope.model).then(res => {
+                message.info("Berhasil")
+                $("#tambah").modal("hide");
+                $scope.titleModal = "Tambah Data";
+                $scope.model = {};
+            })
+        } else {
+            pegawaiServices.post($scope.model).then(res => {
+                message.info("Berhasil")
+                $("#tambah").modal("hide");
+                $scope.titleModal = "Tambah Data";
+                $scope.model = {};
+            })
+        }
+    }
+
+    $scope.edit = (item) => {
         $scope.titleModal = "Ubah Data";
-        $scope.model = item;
+        $scope.model = angular.copy(item);
         $("#tambah").modal("show");
     }
 
@@ -193,14 +286,14 @@ function paketController($scope, $http, helperServices, paketServices, message, 
     $scope.files = "";
     $scope.showFoto = (item) => {
         $scope.$applyAsync(x => {
-            $scope.files = $sce.trustAsResourceUrl(helperServices.url + "assets/backend/img/makanan/" + item.foto);
+            $scope.files = $sce.trustAsResourceUrl(helperServices.url + "assets/backend/img/foto/" + item.foto);
         })
         $("#modelId").modal("show");
     }
 
     $scope.deleted = (param) => {
         message.dialog("ingin menghapus?", "Yakin", "Tidak").then(x => {
-            paketServices.deleted(param).then(res => {
+            pegawaiServices.deleted(param).then(res => {
                 message.info("Berhasil");
             })
         })

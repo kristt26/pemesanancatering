@@ -20,6 +20,7 @@
     <link rel="stylesheet" href="../assets/backend/plugins/bs-stepper/css/bs-stepper.min.css">
     <link rel="stylesheet" href="../assets/backend/plugins/dropzone/min/dropzone.min.css">
     <link rel="stylesheet" href="../assets/backend/dist/css/adminlte.css">
+    <link rel="stylesheet" href="../assets/backend/dist/css/bootstrap-image-checkbox.min.css">
 </head>
 
 <body class="hold-transition sidebar-mini">

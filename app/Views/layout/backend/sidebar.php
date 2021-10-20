@@ -47,13 +47,34 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="../widgets.html" class="nav-link">
+                    <a href="<?=base_url('admin/pegawai')?>" class="nav-link {{title=='Pegawai' ? 'active': ''}}">
+                        <i class="nav-icon fas fa-user"></i>
+                        <p>
+                            Pegawai
+                        </p>
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a href="<?=base_url('admin/customer')?>" class="nav-link {{title=='Customer' ? 'active': ''}}">
                         <i class="nav-icon fas fa-users"></i>
                         <p>
                             Customer
                         </p>
                     </a>
                 </li>
+                
+
+                <li class="nav-item">
+                    <a href="<?=base_url('admin/pesanan')?>" class="nav-link {{title=='Pesanan' ? 'active': ''}}">
+                        <i class="nav-icon fas fa-user"></i>
+                        <p>
+                            Pesanan
+                        </p>
+                    </a>
+                </li>
+
+
 
                 <li class="nav-item">
                     <a href="#" class="nav-link">

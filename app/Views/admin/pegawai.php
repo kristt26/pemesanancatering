@@ -1,7 +1,7 @@
-<div class="col-md-12" ng-controller="menuController">
+<div class="col-md-12" ng-controller="pegawaiController">
     <div class="card card-danger">
         <div class="card-header">
-            <h3 class="card-title"><i class="fas fa-list"></i> Daftar Menu</h3>
+            <h3 class="card-title"><i class="fas fa-list"></i> Daftar Pegawai</h3>
             <div class="card-tools">
                 <button class="btn btn-primary btn-sm" data-toggle="modal" data-target="#tambah" ng-click="model={}"><strong><i
                             class="fas fa-plus-circle"></i></strong></button>
@@ -12,9 +12,9 @@
                 <thead>
                     <tr>
                         <th>No</th>
-                        <th>Menu Makanan</th>
-                        <th>Satuan</th>
-                        <th>Harga</th>
+                        <th>Nama Pegawai</th>
+                        <th>Pekerjaan</th>
+                        <th>Deskripsi</th>
                         <th>Foto</th>
                         <th><i class="fas fa-cog fa-spin"></i></th>
                     </tr>
@@ -22,9 +22,9 @@
                 <tbody>
                     <tr ng-repeat="item in datas">
                         <td>{{$index+1}}</td>
-                        <td>{{item.menu}}</td>
-                        <td>{{item.satuan}}</td>
-                        <td>{{item.harga}}</td>
+                        <td>{{item.nama}}</td>
+                        <td>{{item.pekerjaan}}</td>
+                        <td>{{item.deskripsi}}</td>
                         <td><a href="javascript:void();" ng-click="showFoto(item)">{{item.foto}}</a></td>
                         <td style="width: 10%">
                             <div class="d-flex justify-content-center">
@@ -52,23 +52,22 @@
                 <form ng-submit="save()">
                     <div class="modal-body">
                         <div class="form-group row">
-                            <label for="menu" class="col-sm-2 col-form-label col-form-label-sm">Menu</label>
+                            <label for="nama" class="col-sm-2 col-form-label col-form-label-sm">Nama Pegawai</label>
                             <div class="col-sm-10">
-                                <input type="text" class="form-control form-control-sm" id="menu" ng-model="model.menu">
+                                <input type="text" class="form-control form-control-sm" id="nama" ng-model="model.nama">
                             </div>
                         </div>
                         <div class="form-group row">
-                            <label for="satuan" class="col-sm-2 col-form-label col-form-label-sm">Satuan</label>
+                            <label for="pekerjaan" class="col-sm-2 col-form-label col-form-label-sm">Pekerjaan</label>
                             <div class="col-sm-10">
-                                <input type="text" class="form-control form-control-sm" id="satuan"
-                                    ng-model="model.satuan">
+                                <input type="text" class="form-control form-control-sm" id="pekerjaan"
+                                    ng-model="model.pekerjaan">
                             </div>
                         </div>
                         <div class="form-group row">
-                            <label for="harga" class="col-sm-2 col-form-label col-form-label-sm">Harga</label>
+                            <label for="deskripsi" class="col-sm-2 col-form-label col-form-label-sm">Keterangan</label>
                             <div class="col-sm-10">
-                                <input type="text" class="form-control form-control-sm" id="harga"
-                                    mask-currency="'Rp. '" ng-model="model.harga">
+                                <textarea class="form-control form-control-sm" id="deskripsi" ng-model="model.deskripsi" rows="3"></textarea>
                             </div>
                         </div>
                         <div class="form-group row">
@@ -86,7 +85,7 @@
                                     <span ng-show="form.model.foto.$error.maxsize">Files must not exceed 5000
                                         KB</span>
                                 </div>
-                                <span ng-show="model.id">Kosongkan jika tidak tidak ingin
+                                <span ng-show="model.id">Kosongkan jika tidak ingin
                                     mengganti</span>
                             </div>
 

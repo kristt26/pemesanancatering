@@ -3,6 +3,7 @@ angular.module('admin.service', [])
     .factory('homeServices', homeServices)
     .factory('menuServices', menuServices)
     .factory('paketServices', paketServices)
+    .factory('pegawaiServices', pegawaiServices)
     ;
 
 
@@ -177,7 +178,7 @@ function menuServices($http, $q, helperServices, AuthService, message) {
                     data.menu = param.menu;
                     data.satuan = param.satuan;
                     data.harga = param.harga;
-                    data.foto = param.foto;
+                    data.foto = res.data.foto;
                 }
                 def.resolve(res.data);
             },
@@ -212,6 +213,155 @@ function menuServices($http, $q, helperServices, AuthService, message) {
 
 function paketServices($http, $q, helperServices, AuthService, message) {
     var controller = helperServices.url + 'admin/paket';
+    var service = {};
+    service.data = [];
+    return {
+        get: get, post: post, put: put, deleted: deleted, deleteDetail: deleteDetail, postDetail:postDetail
+    };
+
+    function get() {
+        var def = $q.defer();
+        $http({
+            method: 'get',
+            url: controller + "/read/",
+            headers: AuthService.getHeader()
+        }).then(
+            (res) => {
+                service.data = res.data;
+                def.resolve(res.data);
+            },
+            (err) => {
+                def.reject(err);
+                message.error(err.data.messages.error)
+            }
+        );
+        return def.promise;
+    }
+    function post(param) {
+        var def = $q.defer();
+        $http({
+            method: 'post',
+            url: controller + "/post",
+            data: param,
+            headers: AuthService.getHeader()
+        }).then(
+            (res) => {
+                service.data.push(res.data);
+                def.resolve(res.data);
+            },
+            (err) => {
+                def.reject(err);
+                message.error(err.data.messages.error)
+            }
+        );
+        return def.promise;
+    }
+    function put(param) {
+        var item = { menu: param.menu, satuan: param.satuan, harga: param.harga, foto: param.foto };
+        var def = $q.defer();
+        $http({
+            method: 'put',
+            url: controller + "/put/" + param.id,
+            data: item,
+            headers: AuthService.getHeader()
+        }).then(
+            (res) => {
+                var data = service.data.find(x => x.id == param.id);
+                if (data) {
+                    data.menu = param.menu;
+                    data.satuan = param.satuan;
+                    data.harga = param.harga;
+                    data.foto = param.foto;
+                }
+                def.resolve(res.data);
+            },
+            (err) => {
+                def.reject(err);
+                message.error(err.data.messages.error)
+            }
+        );
+        return def.promise;
+    }
+    function deleted(param) {
+        var def = $q.defer();
+        $http({
+            method: 'post',
+            url: controller + "/delete/" + param.id,
+            headers: AuthService.getHeader()
+        }).then(
+            (res) => {
+                var paket = service.data.find(x=>x.id==param.paket_id);
+                if(paket){
+                    var detail = paket.detail.find(x=>x.id ==param.id);
+                    if(detail){
+                        var index = paket.detail.indexOf(detail);
+                        paket.detail.splice(index, 1);
+                    }
+                }
+                def.resolve(res.data);
+            },
+            (err) => {
+                def.reject(err);
+                message.error(err.data.messages.error)
+            }
+        );
+        return def.promise;
+    }
+
+    function deleteDetail(param) {
+        var def = $q.defer();
+        $http({
+            method: 'post',
+            url: controller + "/deleteDetail/" + param.id,
+            headers: AuthService.getHeader()
+        }).then(
+            (res) => {
+                var paket = service.data.find(x=>x.id==param.paket_id);
+                if(paket){
+                    var detail = paket.detail.find(x=>x.id ==param.id);
+                    if(detail){
+                        var index = paket.detail.indexOf(detail);
+                        paket.detail.splice(index, 1);
+                    }
+                }
+                def.resolve(res.data);
+            },
+            (err) => {
+                def.reject(err);
+                message.error(err.data.messages.error)
+            }
+        );
+        return def.promise;
+    }
+
+    function postDetail(param) {
+        var def = $q.defer();
+        $http({
+            method: 'post',
+            url: controller + "/postDetail",
+            data: param,
+            headers: AuthService.getHeader()
+        }).then(
+            (res) => {
+                var paket = service.data.find(x=>x.id==param.paket_id);
+                if(paket){
+                    paket.detail.push(res.data);
+                    
+                }
+                def.resolve(res.data);
+            },
+            (err) => {
+                def.reject(err);
+                message.error(err.data.messages.error)
+            }
+        );
+        return def.promise;
+    }
+
+}
+
+function pegawaiServices($http, $q, helperServices, AuthService, message) {
+    var controller = helperServices.url + 'admin/pegawai';
     var service = {};
     service.data = [];
     return {
@@ -270,7 +420,7 @@ function paketServices($http, $q, helperServices, AuthService, message) {
                     data.menu = param.menu;
                     data.satuan = param.satuan;
                     data.harga = param.harga;
-                    data.foto = param.foto;
+                    data.foto = res.data.foto;
                 }
                 def.resolve(res.data);
             },

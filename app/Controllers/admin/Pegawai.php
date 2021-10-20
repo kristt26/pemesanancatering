@@ -7,15 +7,15 @@ namespace App\Controllers\Admin;
 use App\Libraries\Decode;
 use CodeIgniter\RESTful\ResourceController;
 
-class Menu extends ResourceController
+class Pegawai extends ResourceController
 {
-    protected $modelName = 'App\Models\MenuModel';
+    protected $modelName = 'App\Models\PegawaiModel';
     protected $format = 'json';
 
     public function index()
     {
-        $data['title'] = ["title" => "Menu Makanan", "sub" => ""];
-        $data['content'] = view("admin/menu");
+        $data['title'] = ["title" => "Pegawai", "sub" => ""];
+        $data['content'] = view("admin/pegawai");
         $data['sidebar'] = view("layout/backend/sidebar", $data['title']);
         return view('layout/backend/welcome', $data);
     }
@@ -43,7 +43,7 @@ class Menu extends ResourceController
         $data = $this->request->getJSON();
         if (isset($data->foto)) {
             try {
-                $data->foto = $decode->decodebase64($data->foto->base64, 'makanan');
+                $data->foto = $decode->decodebase64($data->foto->base64, 'foto');
             } catch (\Throwable$th) {
                 return $this->fail($th);
             }
@@ -59,7 +59,7 @@ class Menu extends ResourceController
         $data = $this->request->getJSON();
         if (isset($data->foto->base64)) {
             try {
-                $data->foto = $decode->decodebase64($data->foto->base64, 'makanan');
+                $data->foto = $decode->decodebase64($data->foto->base64, 'foto');
             } catch (\Throwable $th) {
                 return $this->fail($th->getMessage());
             }

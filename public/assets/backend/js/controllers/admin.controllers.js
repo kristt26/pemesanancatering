@@ -4,6 +4,7 @@ angular.module('adminctrl', [])
     .controller('menuController', menuController)
     .controller('paketController', paketController)
     .controller('pegawaiController', pegawaiController)
+    .controller('customerController', customerController)
     ;
 
 
@@ -294,6 +295,59 @@ function pegawaiController($scope, $http, helperServices, pegawaiServices, messa
     $scope.deleted = (param) => {
         message.dialog("ingin menghapus?", "Yakin", "Tidak").then(x => {
             pegawaiServices.deleted(param).then(res => {
+                message.info("Berhasil");
+            })
+        })
+    }
+}
+
+function customerController($scope, $http, helperServices, customerServices, message, $sce) {
+    $scope.$emit("SendUp", "Customer");
+    $scope.datas = [];
+    $scope.titleModal = "Tambah Data";
+    $scope.model = {};
+    customerServices.get().then(res => {
+        $scope.datas = res;
+    })
+
+    $scope.save = () => {
+        if ($scope.model.id) {
+            customerServices.put($scope.model).then(res => {
+                message.info("Berhasil")
+                $("#tambah").modal("hide");
+                $scope.titleModal = "Tambah Data";
+                $scope.model = {};
+            })
+        } else {
+            customerServices.post($scope.model).then(res => {
+                message.info("Berhasil")
+                $("#tambah").modal("hide");
+                $scope.titleModal = "Tambah Data";
+                $scope.model = {};
+            })
+        }
+    }
+
+    $scope.edit = (item) => {
+        $scope.titleModal = "Ubah Data";
+        $scope.model = angular.copy(item);
+        $("#tambah").modal("show");
+    }
+
+    $scope.cekFile = (item) => {
+        console.log(item);
+    }
+    $scope.files = "";
+    $scope.showFoto = (item) => {
+        $scope.$applyAsync(x => {
+            $scope.files = $sce.trustAsResourceUrl(helperServices.url + "assets/backend/img/foto/" + item.foto);
+        })
+        $("#modelId").modal("show");
+    }
+
+    $scope.deleted = (param) => {
+        message.dialog("ingin menghapus?", "Yakin", "Tidak").then(x => {
+            customerServices.deleted(param).then(res => {
                 message.info("Berhasil");
             })
         })

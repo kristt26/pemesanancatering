@@ -14,7 +14,7 @@ class CustomersModel extends Model
     protected $returnType           = 'array';
     protected $useSoftDeletes       = false;
     protected $protectFields        = true;
-    protected $allowedFields        = [];
+    protected $allowedFields        = ['id', 'users_id', 'nik', 'nama', 'alamat', 'kontak'];
 
     // Dates
     protected $useTimestamps        = false;

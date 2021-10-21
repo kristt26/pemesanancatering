@@ -29,7 +29,7 @@ class Paket extends ResourceController
             if (is_null($id)) {
                 $paket = $this->model->findAll();
                 foreach ($paket as $key => $value) {
-                    $paket[$key]['detail'] =  $this->detailPaket->where('paket_id', $value['id'])->findAll();
+                    $paket[$key]['detail'] =  $this->detailPaket->selectDetail($value['id']);
                 }
                 return $this->respond($paket);
             }

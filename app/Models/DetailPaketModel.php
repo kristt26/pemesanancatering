@@ -39,4 +39,27 @@ class DetailPaketModel extends Model
     protected $afterFind            = [];
     protected $beforeDelete         = [];
     protected $afterDelete          = [];
+    protected $db;
+
+    public function __construct() {
+        $this->db = \Config\Database::connect();
+    }
+
+    public function selectDetail($paket_id)
+    {
+        $result = $this->db->query("SELECT
+            `detail_paket`.`id`,
+            `detail_paket`.`paket_id`,
+            `detail_paket`.`menu_id`,
+            `menus`.`menu`,
+            `menus`.`satuan`,
+            `menus`.`harga`,
+            `menus`.`foto`,
+            `menus`.`jenis`
+        FROM
+            `detail_paket`
+            LEFT JOIN `menus` ON `menus`.`id` = `detail_paket`.`menu_id`
+        WHERE `detail_paket`.`paket_id`= '$paket_id'")->getResultArray();
+        return $result;
+    }
 }

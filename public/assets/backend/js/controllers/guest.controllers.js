@@ -1,98 +1,109 @@
 angular.module('ctrl', [])
     .controller('pageController', pageController)
     .controller('homeController', homeController)
-    .controller('pasangIklanController', pasangIklanController);
+    .controller('pesananController', pesananController)
+    ;
 
 function pageController($scope, helperServices) {
     $scope.Title = "Page Header";
 }
 
-function homeController($scope, $http, helperServices) {
-    $scope.tampilinput = false;
-    mapboxgl.accessToken = 'pk.eyJ1Ijoia3Jpc3R0MjYiLCJhIjoiY2txcWt6dHgyMTcxMzMwc3RydGFzYnM1cyJ9.FJYE8uVi-eVl_mH_DLLEmw';
-    var map = new mapboxgl.Map({
-        container: 'map',
-        style: 'mapbox://styles/mapbox/streets-v11',
-        center: [131.25478, -0.86210],
-        zoom: 10
-    });
-    var userLocation = new mapboxgl.GeolocateControl({
-        positionOptions: {
-            enableHighAccuracy: true
-        },
-        trackUserLocation: true
-    });
-    map.addControl(userLocation);
-    let directions = new MapboxDirections({
-        accessToken: mapboxgl.accessToken,
-        unit: 'metric',
-        profile: 'mapbox/cycling',
-        interactive: true,
-        steps: true,
-        instructions: true,
-        language: 'id',
-        controls: {
-            inputs: false,
-            instructions: true,
-            profileSwitcher: false
-        }
-
-
-    });
-
-    map.addControl(directions, 'top-left');
-    // directions.setOrigin([cord.coords.longitude, cord.coords.latitude]);
-    userLocation.on('geolocate', function (a) {
-        directions.setOrigin([a.coords.longitude, a.coords.latitude]);
-        console.log(a)
-    });
-
-    var marker = new mapboxgl.Marker({
-        color: "maroon",
-        draggable: true
-    }).setLngLat([131.25478, -0.86210])
-        .addTo(map);
-
-    map.on('load', function () {
-        map.addSource('maine', {
-            'type': 'geojson',
-            'data': helperServices.url + 'public/js/sorong.geojson'
+function homeController($scope, $http, helperServices, dashboardServices, $sce) {
+    $scope.datas = [];
+    dashboardServices.get().then(res=>{
+        $scope.datas = res
+        $scope.datas.menu.forEach(element => {
+            element.harga = parseFloat(element.harga);
+            $scope.$applyAsync(x => {
+                element.foto = $sce.trustAsResourceUrl(helperServices.url + "assets/backend/img/makanan/" + element.foto);
+            })
         });
-
-        map.addLayer({
-            'id': 'maine',
-            'type': 'fill',
-            'source': 'maine',
-            'layout': {},
-            'paint': {
-                'fill-color': '#0080ff',
-                'fill-opacity': 0.2
-            }
-        });
-        map.addLayer({
-            'id': 'outline',
-            'type': 'line',
-            'source': 'maine',
-            'layout': {},
-            'paint': {
-                'line-color': 'red',
-                'line-width': 1,
-                'line-opacity': 0.25
-            }
-        });
-    });
-    // navigator.geolocation.getCurrentPosition((cord) => {
-
-
-    // }, err => {
-
-    // }, {})
+        console.log($scope.datas);
+    })
 }
 
-function wisataController($scope, $http, helperServices, wisataServices) {
+function pesananController($scope, helperServices, pesananServices, message, $sce) {
+    $scope.$emit("SendUp", "Pegawai");
     $scope.datas = [];
-    wisataServices.get().then(res => {
+    $scope.titleModal = "Tambah Data";
+    $scope.model = {};
+    $scope.model.detail = [];
+    pesananServices.get().then(res => {
         $scope.datas = res;
+        console.log($scope.datas.pesanan);
     })
 
+    $scope.save = () => {
+        message.dialog("Data setelah di simpan tidak dapat diubah!", "Ya", "Tidak").then(x=>{
+            pesananServices.post($scope.model).then(res => {
+                message.info("Berhasil")
+                // $("#tambah").modal("hide");
+                // $scope.titleModal = "Tambah Data";
+                // $scope.model = {};
+            })
+        })
+    }
+
+    $scope.edit = (item) => {
+        $scope.titleModal = "Ubah Data";
+        $scope.model = angular.copy(item);
+        $("#tambah").modal("show");
+    }
+
+    $scope.nilai = 0;
+    $scope.setForm = (value)=>{
+        $scope.nilai += value;
+        if($scope.nilai==2){
+            $("#tambah").modal("hide");
+            $("#invoice").modal("show");
+        }
+        if($scope.nilai>0){
+            if(!$scope.model.orderid){
+                $scope.model.orderid = Date.now();
+            }
+        }
+    }
+
+    $scope.check = (item) => {
+        if(item.value){
+            item.paket_id = item.id;
+            $scope.model.detail.push(angular.copy(item));
+        }else{
+            var data = $scope.model.detail.find(x=>x.paket_id==item.id);
+            var index = $scope.model.detail.indexOf(data)
+            $scope.model.detail.splice(index, 1);
+        }
+        console.log($scope.model); 
+    }
+    $scope.total = 0;
+    $scope.subTotal = 0;
+    $scope.tax = 0;
+    $scope.hitungTotal=()=>{
+        $scope.subTotal = 0;
+        $scope.model.detail.forEach(element => {
+            $scope.subTotal += (element.harga*element.jumlah);
+        });
+        $scope.tax = $scope.subTotal*0.1;
+        $scope.total = $scope.subTotal + $scope.tax;
+        $scope.model.tagihan = $scope.total;
+    }
+
+    $scope.showInvoice = (item)=>{
+        $scope.model = angular.copy(item);
+        $scope.model.tanggal_pesan = new Date($scope.model.tanggal_pesan);
+        $scope.model.waktu_acara = new Date($scope.model.waktu_acara);
+        var set = [];
+        $scope.model.detail.forEach(element => {
+            $scope.datas.paket.forEach(paket => {
+                if(element.paket_id==paket.id){
+                    var a = angular.copy(paket);
+                    a.jumlah = parseFloat(element.jumlah);
+                    set.push(a);
+                }
+            });
+        });
+        $scope.model.detail = set;
+        $scope.hitungTotal();
+        $("#invoice").modal("show");
+    }
 }

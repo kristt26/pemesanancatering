@@ -8,6 +8,9 @@ class Home extends BaseController
 {
     public function index()
     {
-        return view('admin/welcome');
+        $data['title'] = ["title" => "Dashboard", "sub" => ""];
+        $data['content'] = view("admin/home");
+        $data['sidebar'] = view("layout/backend/sidebar", $data['title']);
+        return view('layout/backend/welcome', $data);
     }
 }

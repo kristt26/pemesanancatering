@@ -22,6 +22,7 @@
         <nav class="mt-2">
             <ul class="nav nav-pills nav-sidebar flex-column nav-child-indent" data-widget="treeview" role="menu"
                 data-accordion="false">
+                <?php  if(session()->get('role')=='Admin'):?>
                 <li class="nav-item">
                     <a href="../widgets.html" class="nav-link">
                         <i class="nav-icon fas fa-home"></i>
@@ -63,53 +64,50 @@
                         </p>
                     </a>
                 </li>
-                
-
                 <li class="nav-item">
                     <a href="<?=base_url('admin/pesanan')?>" class="nav-link {{title=='Pesanan' ? 'active': ''}}">
-                        <i class="nav-icon fas fa-user"></i>
+                        <i class="nav-icon fas fa-shopping-cart"></i>
                         <p>
                             Pesanan
                         </p>
                     </a>
                 </li>
+                <?php endif;?>
 
 
-
+                <?php  if(session()->get('role')=='Customer'):?>
                 <li class="nav-item">
-                    <a href="#" class="nav-link">
-                        <i class="nav-icon fas fa-edit"></i>
+                    <a href="<?=base_url('customer/home')?>" class="nav-link {{title=='Home' ? 'active': ''}}">
+                        <i class="nav-icon fas fa-home"></i>
                         <p>
-                            Forms
-                            <i class="fas fa-angle-left right"></i>
+                            Home
                         </p>
                     </a>
-                    <ul class="nav nav-treeview">
-                        <li class="nav-item">
-                            <a href="../forms/general.html" class="nav-link">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>General Elements</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="../forms/advanced.html" class="nav-link">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>Advanced Elements</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="../forms/editors.html" class="nav-link">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>Editors</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="../forms/validation.html" class="nav-link">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>Validation</p>
-                            </a>
-                        </li>
-                    </ul>
+                </li>
+                <li class="nav-item">
+                    <a href="<?=base_url('customer/pesanan')?>" class="nav-link {{title=='Pesanan' ? 'active': ''}}">
+                        <i class="nav-icon fas fa-shopping-cart"></i>
+                        <p>
+                            Pesanan
+                        </p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="<?=base_url('customer/jadwal')?>" class="nav-link {{title=='Pesanan' ? 'active': ''}}">
+                        <i class="nav-icon fas fa-calendar"></i>
+                        <p>
+                            Cek Jadwal
+                        </p>
+                    </a>
+                </li>
+                <?php endif;?>
+                <li class="nav-item">
+                    <a href="<?=base_url('auth/logout')?>" class="nav-link {{title=='Pesanan' ? 'active': ''}}">
+                        <i class="nav-icon fas fa-sign-out-alt"></i>
+                        <p>
+                            Logout
+                        </p>
+                    </a>
                 </li>
             </ul>
         </nav>

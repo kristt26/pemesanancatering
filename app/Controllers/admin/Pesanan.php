@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controllers\Customer;
+namespace App\Controllers\Admin;
 
 // use App\Controllers\BaseController;
 // use CodeIgniter\API\ResponseTrait;
@@ -28,15 +28,15 @@ class Pesanan extends ResourceController
     public function index()
     {
         $data['title'] = ["title" => "Pesanan", "sub" => ""];
-        $data['content'] = view("customer/pesanan");
+        $data['content'] = view("admin/pesanan");
         $data['sidebar'] = view("layout/backend/sidebar", $data['title']);
-        return view('layout/frontend/welcome', $data);
+        return view('layout/backend/welcome', $data);
     }
 
     public function read()
     {
         $data['menu'] = $this->menu->findAll();
-        $data['pesanan'] = $this->model->where('customers_id', session()->get('id'))->findAll();
+        $data['pesanan'] = $this->model->findAll();
         foreach ($data['pesanan'] as $key => $value) {
             $data['pesanan'][$key]['detail'] = $this->detailPesanan->where('pesanans_id', $value['id'])->findAll();
             $data['pesanan'][$key]['pembayaran'] = $this->pembayaran->where('pesanans_id', $value['id'])->findAll();
@@ -67,16 +67,11 @@ class Pesanan extends ResourceController
 
     public function put($id = null)
     {
-        $decode = new Decode();
         $data = $this->request->getJSON();
-        if (isset($data->foto->base64)) {
-            try {
-                $data->foto = $decode->decodebase64($data->foto->base64, 'makanan');
-            } catch (\Throwable $th) {
-                return $this->fail($th->getMessage());
-            }
-        }
-        $this->model->update($id, $data);
+        $item = [
+            "status_bayar"=>$data->status_bayar
+        ];
+        $this->model->update($id, $item);
         return $this->respondUpdated($data, "diubah");
     }
 

@@ -44,7 +44,7 @@ class Menu extends ResourceController
         if (isset($data->foto)) {
             try {
                 $data->foto = $decode->decodebase64($data->foto->base64, 'makanan');
-            } catch (\Throwable$th) {
+            } catch (\Throwable $th) {
                 return $this->fail($th);
             }
         }

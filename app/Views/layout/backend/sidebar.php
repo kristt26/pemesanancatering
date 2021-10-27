@@ -69,6 +69,7 @@
                         <i class="nav-icon fas fa-shopping-cart"></i>
                         <p>
                             Pesanan
+                            <span ng-if="warning > 0" class="right badge badge-warning">{{warning}}</span>
                         </p>
                     </a>
                 </li>
@@ -92,17 +93,18 @@
                         </p>
                     </a>
                 </li>
+                
+                <?php endif;?>
                 <li class="nav-item">
-                    <a href="<?=base_url('customer/jadwal')?>" class="nav-link {{title=='Pesanan' ? 'active': ''}}">
+                    <a href="<?=base_url('customer/jadwal')?>" class="nav-link {{title=='Jadwal' ? 'active': ''}}">
                         <i class="nav-icon fas fa-calendar"></i>
                         <p>
                             Cek Jadwal
                         </p>
                     </a>
                 </li>
-                <?php endif;?>
                 <li class="nav-item">
-                    <a href="<?=base_url('auth/logout')?>" class="nav-link {{title=='Pesanan' ? 'active': ''}}">
+                    <a href="<?=base_url('auth/logout')?>" class="nav-link {{title=='LogOut' ? 'active': ''}}">
                         <i class="nav-icon fas fa-sign-out-alt"></i>
                         <p>
                             Logout

@@ -27,14 +27,14 @@
                         <td>{{item.tanggal_pesan | date: 'EEEE, d MMMM y'}}</td>
                         <td>{{item.waktu_acara | date: 'EEEE, d MMMM y'}}</td>
                         <td>{{item.alamat}}</td>
-                        <td>{{item.tagihan}}</td>
+                        <td>{{item.tagihan | currency: 'Rp. '}}</td>
                         <td>{{item.status_bayar}}</td>
                         <td>{{item.catatan}}</td>
                         <td style="width: 10%">
                             <div class="d-flex justify-content-center">
-                                <button class="btn btn-warning btn-sm mr-2"  data-toggle="modal" data-target="#upload" ng-click="showUpload(item)"><i
-                                        class="fas fa-upload" title="Upload bukti pembayaran"></i></button>
-                                <button class="btn btn-success btn-sm mr-2" ng-click="showInvoice(item)"><i
+                                <button class="btn btn-success btn-sm mr-2" ng-click="edit(item)"><i
+                                        class="fas fa-check" title="Upload bukti pembayaran"></i></button>
+                                <button class="btn btn-primary btn-sm mr-2" ng-click="showInvoice(item)"><i
                                         class="fas fa-file-invoice" title="Invoice"></i></button>
                                 <!-- <button class="btn btn-danger btn-sm" ng-click="deleted(item)"><i
                                         class="fas fa-trash"></i></button> -->
@@ -43,85 +43,6 @@
                     </tr>
                 </tbody>
             </table>
-        </div>
-    </div>
-    <!-- Modal Tambah -->
-    <div class="modal fade" id="tambah" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
-        <div class="modal-dialog modal-lg" role="document">
-            <div class="modal-content">
-                <div class="modal-header bg-danger">
-                    <h5 class="modal-title">{{titleModal}}</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <form ng-submit="setForm(1)">
-                    <div class="modal-body" ng-show="nilai==0">
-                        <div class="form-group row">
-                            <label for="waktu_acara" class="col-sm-3 col-form-label col-form-label-sm">Waktu
-                                Acara</label>
-                            <div class="col-sm-9">
-                                <input type="datetime-local" class="form-control form-control-sm" id="waktu_acara"
-                                    ng-model="model.waktu_acara" required>
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <label for="alamat" class="col-sm-3 col-form-label col-form-label-sm">Tempat Acara</label>
-                            <div class="col-sm-9">
-                                <input type="text" class="form-control form-control-sm" id="alamat"
-                                    ng-model="model.alamat" required>
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <label for="catatan" class="col-sm-3 col-form-label col-form-label-sm">Catatan
-                                Tambahan</label>
-                            <div class="col-sm-9">
-                                <textarea class="form-control form-control-sm" id="catatan" ng-model="model.catatan"
-                                    rows="4"></textarea>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="modal-body" ng-show="nilai==1">
-                        <div class="panel-pricing-in">
-                            <div class="row">
-                                <div ng-repeat="item in datas.paket" class="col-md-4 col-sm-4 text-center">
-                                    <div class="panel panel-pricing">
-                                        <div class="panel-heading">
-                                            <!-- <div class="pric-icon">
-                                        <img src="../assets/frontend/images/store.png" alt="" />
-                                    </div> -->
-                                            <h4>{{item.nama_paket}}</h4>
-                                        </div>
-                                        <div class="panel-body text-center">
-                                            <p><strong>{{item.harga | currency: 'Rp. '}}</strong></p>
-                                            <!-- <h5 style="color: black;">{{item.porsi}} Porsi</h5> -->
-                                        </div>
-                                        <ul class="list-group text-center">
-                                            <li ng-repeat="det in item.detail" class="list-group-item"><i
-                                                    class="fa fa-check"></i> {{det.menu}}</li>
-                                        </ul>
-                                        <div class="panel-footer">
-                                            <div class="form-check form-check-inline">
-                                                <input class="form-check-input" type="checkbox" ng-model="item.value"
-                                                    ng-change="check(item)" id="inlineCheckbox{{$index}}">
-                                                <label class="form-check-label"
-                                                    for="inlineCheckbox{{$index}}">Pilih</label>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal"
-                            ng-click="nilai=0">Batal</button>
-                        <button ng-show="nilai>0" type="button" class="btn btn-warning btn-sm"
-                            ng-click="setForm(-1)">Kembali</button>
-                        <button ng-show="nilai<3" type="submit" class="btn btn-primary btn-sm">Lanjut</button>
-                    </div>
-                </form>
-            </div>
         </div>
     </div>
 
@@ -241,7 +162,7 @@
                             <div class="col-12">
                                 <!-- <a href="invoice-print.html" rel="noopener" target="_blank" class="btn btn-default"><i
                                         class="fas fa-print"></i> Print</a> -->
-                                <button id="pay-button" type="button" class="btn btn-success float-right"
+                                <button ng-if="!model.id" id="pay-button" type="button" class="btn btn-success float-right"
                                     ng-click="save()"><i class="far fa-credit-card"></i>
                                     Confirm
                                 </button>
@@ -269,8 +190,15 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <form ng-submit="uploadBukti()">
+                <form ng-submit="save()">
                     <div class="modal-body">
+                        <div class="col-md-12">
+                            <div class="row">
+                                <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12" ng-repeat="item in model.pembayaran">
+                                    <img ng-src="{{item.bukti}}" class="img-responsive " width="100%"/>
+                                </div>
+                            </div>
+                        </div>
                         <div class="form-group row">
                             <label for="totalTagihan" class="col-sm-2 col-form-label col-form-label-sm">Total Tagihan</label>
                             <div class="col-sm-10">
@@ -281,27 +209,18 @@
                         <div class="form-group row">
                             <label for="nominal1" class="col-sm-2 col-form-label col-form-label-sm">Nomimal</label>
                             <div class="col-sm-4">
-                                <input type="text" class="form-control form-control-sm" id="nominal1"
-                                    mask-currency="'Rp. '" ng-model="model.nominal">
+                                <input type="text" readonly class="form-control-plaintext form-control-sm"  id="nominal1"
+                                    mask-currency="'Rp. '" ng-model="totalNomina">
                             </div>
                         </div>
                         <div class="form-group row">
-                            <label for="bukti1" class="col-sm-2 col-form-label col-form-label-sm">bukti</label>
-                            <div class="col-sm-10">
-                                <div class="input-group mb-3">
-                                    <div class="custom-file">
-                                        <input type="file" class="custom-file-input custom-file-input-sm" id="bukti1"
-                                            aria-describedby="inputGroupFileAddon01" ng-model="model.bukti"
-                                            base-sixty-four-input ng-change="cekFile(model.bukti)">
-                                        <label class="custom-file-label"
-                                            for="label">{{model.bukti ? model.bukti.filename: model.bukti && !model.bukti ? model.bukti: 'Pilih File'}}</label>
-                                    </div>
-
-                                    <span ng-show="form.model.bukti.$error.maxsize">Files must not exceed 5000
-                                        KB</span>
-                                </div>
+                            <label for="set_status" class="col-sm-2 col-form-label col-form-label-sm">Set Status</label>
+                            <div class="col-sm-4">
+                                <select class="form-control form-control-sm" id="set_status" ng-model="model.status_bayar">
+                                    <option value="Panjar">Panjar</option>
+                                    <option value="Lunas">Lunas</option>
+                                  </select>
                             </div>
-
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -317,7 +236,7 @@
 
 
     <!-- Modal -->
-    <div class="modal fade" id="modelId" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
+    <div class="modal fade" id="updateStatus" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
                 <img ng-src="{{files}}" class="img-responsive " />

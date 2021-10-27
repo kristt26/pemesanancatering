@@ -188,11 +188,13 @@ function paketController($scope, $http, helperServices, paketServices, message, 
         if ($scope.model.id) {
             paketServices.put($scope.model).then(res => {
                 message.info("Berhasil")
+                $scope.model = {};
                 $("#tambah").modal("hide");
             })
         } else {
             paketServices.post($scope.model).then(res => {
                 message.info("Berhasil")
+                $scope.model = {};
                 $("#tambah").modal("hide");
             })
         }
@@ -215,7 +217,7 @@ function paketController($scope, $http, helperServices, paketServices, message, 
         var paket = $scope.datas.find(x => x.id == $scope.model.id);
         if (item.value) {
             if (paket) {
-                detail={paket_id: paket.id, menu_id: item.id};
+                detail = { paket_id: paket.id, menu_id: item.id };
                 paketServices.postDetail(detail).then(x => { })
             }
             $scope.model.detail.push(item)

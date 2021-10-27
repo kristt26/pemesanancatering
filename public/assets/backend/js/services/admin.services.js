@@ -221,7 +221,7 @@ function paketServices($http, $q, helperServices, AuthService, message) {
     var service = {};
     service.data = [];
     return {
-        get: get, post: post, put: put, deleted: deleted, deleteDetail: deleteDetail, postDetail:postDetail
+        get: get, post: post, put: put, deleted: deleted, deleteDetail: deleteDetail, postDetail: postDetail
     };
 
     function get() {
@@ -295,13 +295,10 @@ function paketServices($http, $q, helperServices, AuthService, message) {
             headers: AuthService.getHeader()
         }).then(
             (res) => {
-                var paket = service.data.find(x=>x.id==param.paket_id);
-                if(paket){
-                    var detail = paket.detail.find(x=>x.id ==param.id);
-                    if(detail){
-                        var index = paket.detail.indexOf(detail);
-                        paket.detail.splice(index, 1);
-                    }
+                var paket = service.data.find(x => x.id == param.id);
+                if (paket) {
+                    var index = service.data.indexOf(paket);
+                    service.data.splice(index, 1);
                 }
                 def.resolve(res.data);
             },
@@ -321,10 +318,10 @@ function paketServices($http, $q, helperServices, AuthService, message) {
             headers: AuthService.getHeader()
         }).then(
             (res) => {
-                var paket = service.data.find(x=>x.id==param.paket_id);
-                if(paket){
-                    var detail = paket.detail.find(x=>x.id ==param.id);
-                    if(detail){
+                var paket = service.data.find(x => x.id == param.paket_id);
+                if (paket) {
+                    var detail = paket.detail.find(x => x.id == param.id);
+                    if (detail) {
                         var index = paket.detail.indexOf(detail);
                         paket.detail.splice(index, 1);
                     }
@@ -348,10 +345,10 @@ function paketServices($http, $q, helperServices, AuthService, message) {
             headers: AuthService.getHeader()
         }).then(
             (res) => {
-                var paket = service.data.find(x=>x.id==param.paket_id);
-                if(paket){
+                var paket = service.data.find(x => x.id == param.paket_id);
+                if (paket) {
                     paket.detail.push(res.data);
-                    
+
                 }
                 def.resolve(res.data);
             },

@@ -29,7 +29,7 @@ class Paket extends ResourceController
             if (is_null($id)) {
                 $paket = $this->model->findAll();
                 foreach ($paket as $key => $value) {
-                    $paket[$key]['detail'] =  $this->detailPaket->selectDetail($value['id']);
+                    $paket[$key]['detail'] = $this->detailPaket->selectDetail($value['id']);
                 }
                 return $this->respond($paket);
             }
@@ -47,27 +47,25 @@ class Paket extends ResourceController
     {
         $data = $this->request->getJSON();
         $item = [
-            "nama_paket"=> $data->nama_paket,
-            "harga"=> $data->harga,
-            "porsi"=> $data->porsi,
-            "keterangan"=> $data->keterangan,
+            "nama_paket" => $data->nama_paket,
+            "harga" => $data->harga,
+            "porsi" => $data->porsi,
+            "keterangan" => $data->keterangan,
         ];
         $this->model->insert($data);
         $item['id'] = $this->model->getInsertID();
         $item['detail'] = [];
         foreach ($data->detail as $key => $value) {
             $detail = [
-                "paket_id"=>$item['id'],
-                "menu_id"=>$value->id
+                "paket_id" => $item['id'],
+                "menu_id" => $value->id,
             ];
             $this->detailPaket->insert($detail);
             $detail['id'] = $this->detailPaket->getInsertID();
             array_push($item['detail'], $detail);
         }
-        return $this->respondCreated($data, "disimpan");
+        return $this->respondCreated($item, "disimpan");
     }
-
-    
 
     public function put($id = null)
     {
@@ -78,12 +76,20 @@ class Paket extends ResourceController
 
     public function delete($id = null)
     {
-        return $this->respondDeleted($this->model->delete($id), "delete");
+        try {
+            $result = $this->model->delete($id);
+            return $this->respondDeleted($result, "delete");
+        } catch (\Throwable $th) {
+            $pesan = $th->getMessage();
+            return $this->fail($pesan);
+        }
+        
     }
 
     public function deleteDetail($id = null)
     {
-        return $this->respondDeleted($this->detailPaket->delete($id), "delete");
+        $result = $this->detailPaket->delete($id);
+        return $this->respondDeleted($result, "delete");
     }
 
     public function postDetail()

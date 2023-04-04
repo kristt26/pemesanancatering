@@ -33,9 +33,14 @@
                         <td>{{item.catatan}}</td>
                         <td style="width: 10%">
                             <div class="d-flex justify-content-center">
+<<<<<<< HEAD
                                 <button class="btn btn-warning btn-sm mr-2" data-toggle="modal" data-target="#upload"
                                     ng-click="showUpload(item)"><i class="fas fa-upload"
                                         title="Upload bukti pembayaran"></i></button>
+=======
+                                <button class="btn btn-warning btn-sm mr-2"  data-toggle="modal" data-target="#upload" ng-click="showUpload(item)"><i
+                                        class="fas fa-upload" title="Upload bukti pembayaran"></i></button>
+>>>>>>> 0beb872e42f1342fce190d85d205b4954a3ea25a
                                 <button class="btn btn-success btn-sm mr-2" ng-click="showInvoice(item)"><i
                                         class="fas fa-file-invoice" title="Invoice"></i></button>
                                 <!-- <button class="btn btn-danger btn-sm" ng-click="deleted(item)"><i
@@ -275,11 +280,18 @@
                 <form ng-submit="uploadBukti()">
                     <div class="modal-body">
                         <div class="form-group row">
+<<<<<<< HEAD
                             <label for="totalTagihan" class="col-sm-2 col-form-label col-form-label-sm">Total
                                 Tagihan</label>
                             <div class="col-sm-10">
                                 <input type="text" readonly class="form-control-plaintext form-control-sm"
                                     id="totalTagihan" mask-currency="'Rp. '" ng-model="model.tagihan">
+=======
+                            <label for="totalTagihan" class="col-sm-2 col-form-label col-form-label-sm">Total Tagihan</label>
+                            <div class="col-sm-10">
+                                <input type="text" readonly class="form-control-plaintext form-control-sm" id="totalTagihan"
+                                    mask-currency="'Rp. '" ng-model="model.tagihan">
+>>>>>>> 0beb872e42f1342fce190d85d205b4954a3ea25a
                             </div>
                         </div>
                         <div class="form-group row">

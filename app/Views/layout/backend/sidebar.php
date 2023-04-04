@@ -93,7 +93,11 @@
                         </p>
                     </a>
                 </li>
+<<<<<<< HEAD
 
+=======
+                
+>>>>>>> 0beb872e42f1342fce190d85d205b4954a3ea25a
                 <?php endif;?>
                 <li class="nav-item">
                     <a href="<?=base_url('customer/jadwal')?>" class="nav-link {{title=='Jadwal' ? 'active': ''}}">

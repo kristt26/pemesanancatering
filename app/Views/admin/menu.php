@@ -3,8 +3,8 @@
         <div class="card-header">
             <h3 class="card-title"><i class="fas fa-list"></i> Daftar Menu</h3>
             <div class="card-tools">
-                <button class="btn btn-primary btn-sm" data-toggle="modal" data-target="#tambah" ng-click="model={}"><strong><i
-                            class="fas fa-plus-circle"></i></strong></button>
+                <button class="btn btn-primary btn-sm" data-toggle="modal" data-target="#tambah"
+                    ng-click="model={}"><strong><i class="fas fa-plus-circle"></i></strong></button>
             </div>
         </div>
         <div class="card-body">
@@ -15,6 +15,7 @@
                         <th>Menu Makanan</th>
                         <th>Satuan</th>
                         <th>Harga</th>
+                        <th>Jenis</th>
                         <th>Foto</th>
                         <th><i class="fas fa-cog fa-spin"></i></th>
                     </tr>
@@ -25,6 +26,8 @@
                         <td>{{item.menu}}</td>
                         <td>{{item.satuan}}</td>
                         <td>{{item.harga}}</td>
+                        <td>{{item.jenis=='Main' ? 'Hidangan Utama' : item.jenis=='Starters' ? 'Hidangan Pembuka' : item.jenis=='Deserts' ? 'Hidangan Penutup' : 'Minuman' }}
+                        </td>
                         <td><a href="javascript:void();" ng-click="showFoto(item)">{{item.foto}}</a></td>
                         <td style="width: 10%">
                             <div class="d-flex justify-content-center">
@@ -69,6 +72,24 @@
                             <div class="col-sm-10">
                                 <input type="text" class="form-control form-control-sm" id="harga"
                                     mask-currency="'Rp. '" ng-model="model.harga">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="jenis" class="col-sm-2 col-form-label col-form-label-sm">Jenis Menu</label>
+                            <div class="col-sm-10">
+                                <select class="form-control form-control-sm" id="jenis" ng-model="model.jenis">
+                                    <option value="Starters">Hidangan Pembuka</option>
+                                    <option value="Main">Hidangan Utama</option>
+                                    <option value="Deserts">Hidangan Penutup</option>
+                                    <option value="Drinks">Minuman</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="keterangan" class="col-sm-2 col-form-label col-form-label-sm">Keterangan</label>
+                            <div class="col-sm-10">
+                                <textarea class="form-control form-control-sm" id="keterangan"
+                                    ng-model="model.keterangan"></textarea>
                             </div>
                         </div>
                         <div class="form-group row">

@@ -22,11 +22,11 @@
         <!-- /.login-logo -->
         <div class="card card-outline card-primary">
             <div class="card-header text-center">
-                <a href="../assets/backend/index2.html" class="h1">Catering</a>
+                <a href="../assets/backend/index2.html" class="h1">Jhona Rezky Catering</a>
             </div>
             <div class="card-body">
                 <p class="login-box-msg">Silahkan Login di sini</p>
-                <form action="<?= base_url("auth/login")?>" method="post">
+                <form action="<?=base_url("auth/login")?>" method="post">
                     <div class="input-group mb-3">
                         <input type="text" class="form-control" name="username" placeholder="Username">
                         <div class="input-group-append">
@@ -51,7 +51,7 @@
                     </div>
                 </form>
                 <p class="mb-0">
-                    <a href="<?= base_url("auth/registrasi")?>" class="text-center">Register a new membership</a>
+                    <a href="<?=base_url("auth/registrasi")?>" class="text-center">Register a new membership</a>
                 </p>
             </div>
             <!-- /.card-body -->

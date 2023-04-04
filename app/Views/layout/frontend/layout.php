@@ -11,7 +11,7 @@
     <meta name="viewport" content="width=device-width, maximum-scale=1, initial-scale=1, user-scalable=0">
 
     <!-- Site Metas -->
-    <title>Food Funday Restaurant - One page HTML Responsive</title>
+    <title>Jhona Rezky Catering </title>
     <meta name="keywords" content="">
     <meta name="description" content="">
     <meta name="author" content="">
@@ -59,10 +59,10 @@
                                     <span class="icon-bar"></span>
                                 </button>
                                 <div class="logo">
-                                    <h5 style="color: white;">Pemesanan Catering</h5>
-                                    <!-- <a class="navbar-brand js-scroll-trigger logo-header" href="#">
-                                        <img src="../assets/frontend/images/logo.png" alt="">
-                                    </a> -->
+                                    <!-- <h1 style="color: white;">Jhona Rezky Catering</h1> -->
+                                    <a class="navbar-brand js-scroll-trigger logo-header" href="#">
+                                        <img src="../assets/frontend/images/rezky.png" alt="" style="width: 50%">
+                                    </a>
                                 </div>
                             </div>
                             <div id="navbar" class="navbar-collapse collapse">
@@ -73,7 +73,7 @@
                                     <li><a href="#our_team">Team</a></li>
                                     <li><a href="#gallery">Gallery</a></li>
                                     <li><a href="#pricing">pricing</a></li>
-                                    <li><a href="<?= base_url('auth')?>">Login</a></li>
+                                    <li><a href="<?=base_url('auth')?>">Login</a></li>
                                 </ul>
                             </div>
                             <!-- end nav-collapse -->
@@ -98,7 +98,7 @@
                             <h1>Kami Melayani <span class="typer" id="some-id" data-delay="200" data-delim=":"
                                     data-words="Wedding:Event" data-colors="red"></span><span class="cursor"
                                     data-cursorDisplay="_" data-owner="some-id"></span></h1>
-                            <h2>Pemesanan Catering </h2>
+                            <h2>Jhona Rezky Catering </h2>
                             <a href="#about">
                                 <div class="mouse"></div>
                             </a>
@@ -121,6 +121,18 @@
                 <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                     <div class="wow fadeIn" data-wow-duration="1s" data-wow-delay="0.1s">
                         <h2 class="block-title"> About Us </h2>
+                        <p>
+                            usahannya sejak tahun 2010 pada awalnya dimulai dengan melayani acara gerejawi, kemudian
+                            berlanjut dengan melayani acara pernikahan dan banyak kendala yang terjadi karena masih
+                            minimnya tenaga kerja karena modal yang masih kecil kadang ia harus terlibat langsung untuk
+                            pengadaan bahan baku dan pengolahannya serta bertransaksi dengan pelanggan dan juga
+                            pengorderan. Kemudian ketika usahannya mulai berkembang ia manambah beberapa tenaga kerja
+                            yang sampai saat ini berjumlah 7 orang, namun kadang dalam proses pemesanan mengalami
+                            kesulitan-kesulitan dan kesalahan pada pencatatan transaksi oleh karena dilakukan secara
+                            manual kadang menghabiskan waktu untuk menjelaskan daftar menu dan harga kepada pelanggan
+                            sehingga pemilik Jhona Rezky Catering mengharapkan ada suatu sistem yang dapat menyimpan
+                            data-data transaksi serta menu yang mudah untuk diketahui oleh pelanggan.
+                        </p>
                     </div>
                 </div>
                 <!-- end col -->
@@ -150,20 +162,19 @@
                     </div>
                     <div class="special-box">
                         <div id="owl-demo">
-                            <?php foreach ($menu as $key => $value):?>
+                            <?php foreach ($menu as $key => $value): ?>
                             <div class="item item-type-zoom">
                                 <a href="#" class="item-hover">
                                     <div class="item-info">
                                         <div class="headline">
-                                            <?= $value['menu']?>
+                                            <?=$value['menu']?>
                                             <div class="line"></div>
-                                            <div class="dit-line">Lorem ipsum dolor sit amet, consectetur adip aliqua.
-                                                Ut enim ad minim venia.</div>
+                                            <div class="dit-line"><?=$value['keterangan']?></div>
                                         </div>
                                     </div>
                                 </a>
                                 <div class="item-img">
-                                    <img src="../assets/backend/img/makanan/<?= $value['foto']?>" alt="sp-menu">
+                                    <img src="../assets/backend/img/makanan/<?=$value['foto']?>" alt="sp-menu">
                                 </div>
                             </div>
                             <?php endforeach;?>
@@ -312,16 +323,16 @@
                     <div class="team-box">
 
                         <div class="row">
-                            <?php foreach ($pegawai as $key => $value):?>
+                            <?php foreach ($pegawai as $key => $value): ?>
                             <div class="col-md-4 col-sm-6">
                                 <div class="sf-team" style="margin-bottom: 20px;">
                                     <div class="thumb">
-                                        <a href="#"><img src="../assets/backend/img/foto/<?= $value['foto']?>"
+                                        <a href="#"><img src="../assets/backend/img/foto/<?=$value['foto']?>"
                                                 alt=""></a>
                                     </div>
                                     <div class="text-col">
-                                        <h3><?= $value['nama']?></h3>
-                                        <p><?= $value['pekerjaan']?></p>
+                                        <h3><?=$value['nama']?></h3>
+                                        <p><?=$value['pekerjaan']?></p>
                                     </div>
                                 </div>
                             </div>
@@ -353,22 +364,22 @@
                         </h2>
                     </div>
                     <div class="gal-container clearfix">
-                        <?php foreach ($menu as $key => $value):?>
+                        <?php foreach ($menu as $key => $value): ?>
                         <div class="col-md-4 col-sm-6 co-xs-12 gal-item">
                             <div class="box">
-                                <a href="#" data-toggle="modal" data-target="#<?= $key?>">
-                                    <img src="../assets/backend/img/makanan/<?= $value['foto']?>" alt="" />
+                                <a href="#" data-toggle="modal" data-target="#<?=$key?>">
+                                    <img src="../assets/backend/img/makanan/<?=$value['foto']?>" alt="" />
                                 </a>
-                                <div class="modal fade" id="<?= $key?>" tabindex="-1" role="dialog">
+                                <div class="modal fade" id="<?=$key?>" tabindex="-1" role="dialog">
                                     <div class="modal-dialog" role="document">
                                         <div class="modal-content">
                                             <button type="button" class="close" data-dismiss="modal"
                                                 aria-label="Close"><span aria-hidden="true">×</span></button>
                                             <div class="modal-body">
-                                                <img src="../assets/backend/img/makanan/<?= $value['foto']?>" alt="" />
+                                                <img src="../assets/backend/img/makanan/<?=$value['foto']?>" alt="" />
                                             </div>
                                             <div class="col-md-12 description">
-                                                <h4><?= $value['keterangan']?></h4>
+                                                <h4><?=$value['keterangan']?></h4>
                                             </div>
                                         </div>
                                     </div>
@@ -409,10 +420,12 @@
                                 <h2 style="color: black;">{{item.porsi}} Porsi</h2>
                             </div>
                             <ul class="list-group text-center">
-                                <li ng-repeat="det in item.detail" class="list-group-item"><i class="fa fa-check"></i> {{det.menu}}</li>
+                                <li ng-repeat="det in item.detail" class="list-group-item"><i class="fa fa-check"></i>
+                                    {{det.menu}}</li>
                             </ul>
                             <div class="panel-footer">
-                                <a class="btn btn-lg btn-block hvr-underline-from-center" href="<?= base_url('auth')?>">Purchase Now!</a>
+                                <a class="btn btn-lg btn-block hvr-underline-from-center"
+                                    href="<?=base_url('auth')?>">Purchase Now!</a>
                             </div>
                         </div>
                     </div>
@@ -432,7 +445,7 @@
                     <div class="footer-in-main">
                         <div class="footer-logo">
                             <div class="text-center">
-                                <img src="../assets/frontend/images/logo.png" alt="" />
+                                <img src="../assets/frontend/images/rezky.png" alt="" />
                             </div>
                         </div>
                         <div class="col-lg-4 col-md-3 col-sm-6 col-xs-12">

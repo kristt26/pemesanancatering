@@ -25,6 +25,9 @@
 
 <body class="hold-transition sidebar-mini">
     <div class="wrapper">
+        <?php
+        
+        ?>
 
         <?=$sidebar?>
 
@@ -53,10 +56,9 @@
         </div>
         <footer class="main-footer">
             <div class="float-right d-none d-sm-block">
-                <b>Version</b> 3.1.0
+                <!-- <b>Version</b> 3.1.0 -->
             </div>
-            <strong>Copyright &copy; 2014-2021 <a href="https://adminlte.io">AdminLTE.io</a>.</strong> All rights
-            reserved.
+            <strong>Octagon Cendrawasih Slutiono <a href="https://adminlte.io">OCS</a>.</strong>
         </footer>
 
         <aside class="control-sidebar control-sidebar-dark">

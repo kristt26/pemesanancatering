@@ -4,17 +4,17 @@ namespace App\Models;
 
 use CodeIgniter\Model;
 
-class MenuModel extends Model
+class PembayaranModel extends Model
 {
     protected $DBGroup              = 'default';
-    protected $table                = 'menus';
+    protected $table                = 'pembayarans';
     protected $primaryKey           = 'id';
     protected $useAutoIncrement     = true;
     protected $insertID             = 0;
     protected $returnType           = 'array';
     protected $useSoftDeletes       = false;
     protected $protectFields        = true;
-    protected $allowedFields        = ['id','menu', 'satuan', 'harga', 'foto', 'jenis', 'keterangan'];
+    protected $allowedFields        = ['id', 'pesanans_id', 'tanggal', 'nominal', 'bukti'];
 
     // Dates
     protected $useTimestamps        = false;
